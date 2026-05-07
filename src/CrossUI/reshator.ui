@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,9 @@
    </item>
    <item row="6" column="0">
     <widget class="QGroupBox" name="group_ga_params">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>Параметры ГА</string>
      </property>
@@ -195,7 +198,7 @@
          <double>0.050000000000000</double>
         </property>
         <property name="value">
-         <double>0.1500000000000000</double>
+         <double>0.150000000000000</double>
         </property>
        </widget>
       </item>

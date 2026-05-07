@@ -40,6 +40,10 @@ Reshator::Reshator(QWidget *parent, GlobalDataTransition* data)
     connect(this->data, &GlobalDataTransition::Received, this, [this](){
         ui->lab_info->setText(this->data->message);
     });
+
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [this](int index){
+        this->ui->group_ga_params->setEnabled(index); // 0 - pulp. 1 - GA => true
+    });
 }
 
 Reshator::~Reshator()

@@ -33,6 +33,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         reshator.h reshator.cpp reshator.ui
         globaldatatransition.h globaldatatransition.cpp
         outputdata.h outputdata.cpp outputdata.ui
+        about.h about.cpp about.ui
 
 
 

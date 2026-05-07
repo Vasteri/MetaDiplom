@@ -68,32 +68,24 @@ Graphic::~Graphic()
 
 void Graphic::init_response_api(QPushButton *but_api) {
     connect(but_api, &QPushButton::clicked, this, [this](){
-        qDebug() << "1";
         QJsonObject obj = this->data->GetData();
         clearScenes();
-        qDebug() << "1.5";
         if (obj.contains("result") && obj["result"].isArray()) {
-            qDebug() << "2";
             QVector<Lesson> lessons;
             if (!parseSchedule(obj, lessons)) {
                 clearScenes();
                 updateStatus(tr("Не удалось разобрать ответ сервера"), true);
                 return;
             }
-            qDebug() << "2.5";
             renderAll(lessons);
-            qDebug() << "2.6";
             updateStatus(tr("Найдено пар: %1").arg(lessons.size()), false);
         }
         else if (obj.isEmpty()){
-            qDebug() << "3";
             updateStatus(QString("Статус: Нет данных"), true);
         }
         else {
-            qDebug() << "4";
             updateStatus(QString("Статус: Incorrect json format"), true);
         }
-        qDebug() << "end";
     });
 }
 

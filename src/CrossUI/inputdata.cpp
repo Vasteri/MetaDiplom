@@ -25,6 +25,24 @@ InputData::InputData(QWidget *parent, GlobalDataTransition* data)
         QJsonValue updatedJson = modelItemToJson(model->invisibleRootItem());
         ui->lab_info->setText(QJsonDocument(updatedJson.toObject()).toJson(QJsonDocument::Compact));
     });
+
+    connect(ui->but_del_el, &QPushButton::clicked, this, [this](){
+        QModelIndex currentIndex = ui->treeView->currentIndex();
+        if (currentIndex.isValid()) {
+            // Получаем соответствующий QStandardItem
+            QStandardItem* item = model->itemFromIndex(currentIndex);
+
+            if (item && !item->hasChildren() && item->parent() && item->parent()->rowCount() != 1) {
+
+                // Получаем родительский элемент. Если item корневой, родителем будет невидимый корень модели.
+                QStandardItem* parentItem = item->parent();
+                //if (!parentItem) {
+                //    parentItem = model->invisibleRootItem();
+                //}
+                parentItem->removeRow(item->row());
+            }
+        }
+    });
 }
 
 InputData::~InputData()
@@ -54,6 +72,7 @@ void InputData::NewFile() {
     SetDataToModel(jsonObject);
     this->filename = fileName;
     ui->lab_info->setText("Файл создан.");
+    ui->treeView->resizeColumnToContents(0);
 }
 
 void InputData::OpenFile(){
@@ -79,6 +98,7 @@ void InputData::OpenFile(){
     SetDataToModel(jsonObject);
     this->filename = fileName;
     ui->lab_info->setText("Файл открыт.");
+    ui->treeView->resizeColumnToContents(0);
 }
 
 void InputData::SaveFile() {
@@ -163,6 +183,8 @@ void addJsonToItem(const QJsonValue &value, QStandardItem *parent) {
         for (auto it = obj.begin(); it != obj.end(); ++it) {
             QStandardItem *keyItem = new QStandardItem(it.key());
             QStandardItem *valueItem = new QStandardItem("");
+            keyItem->setEditable(false);
+            valueItem->setEditable(false);
             parent->appendRow({keyItem, valueItem});
             addJsonToItem(it.value(), keyItem); // рекурсивно добавляем вложенные объекты
         }
@@ -172,8 +194,10 @@ void addJsonToItem(const QJsonValue &value, QStandardItem *parent) {
             addJsonToItem(arr[i], parent);
         }
     } else {
+        QStandardItem *keyItem = new QStandardItem("");
         QStandardItem *valueItem = new QStandardItem(value.toVariant().toString());
-        parent->appendRow({new QStandardItem(""), valueItem});
+        keyItem->setEditable(false);
+        parent->appendRow({keyItem, valueItem});
     }
 }
 

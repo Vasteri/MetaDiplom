@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Построение расписаний</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -22,13 +22,13 @@
       </property>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>Входные данные</string>
+        <string>Исходные данные</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5"/>
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Решить</string>
+        <string>Построение</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout"/>
       </widget>
@@ -46,7 +46,7 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Таблицы</string>
+        <string>Таблица</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4"/>
       </widget>

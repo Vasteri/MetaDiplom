@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     input_data = new InputData(this, data);
     output_data = new OutputData(this, data);
     reshator = new Reshator(this, data);
+    about = new About(this);
 
     //this->setCentralWidget(graphic);
     ui->tabWidget->widget(0)->layout()->addWidget(input_data);
@@ -27,6 +28,8 @@ MainWindow::~MainWindow()
     delete graphic;
     delete tablish;
     delete input_data;
+    delete output_data;
     delete reshator;
+    delete about;
     delete data;
 }

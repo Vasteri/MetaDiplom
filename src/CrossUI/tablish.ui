@@ -24,7 +24,7 @@
    <item row="2" column="0">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
-      <string>Запрос решения</string>
+      <string>Построить таблицу</string>
      </property>
     </widget>
    </item>

@@ -358,7 +358,7 @@ void Graphic::renderDiagram(QGraphicsScene* scene,
         // Нужно ли показывать ФИО преподавателя в ячейке
         const bool isTeachersTab = (scene == sceneTeachers);
 
-        const QString subjectText  = shortText(l.subject, 14);
+        const QString subjectText  = compactSubjectText(l.subject, 14);
         const QString teacherText  = shortText(l.teacher, 14);
 
         // Отдельный текстовый элемент для предмета

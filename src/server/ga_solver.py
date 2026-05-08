@@ -583,12 +583,12 @@ class ScheduleOptimizer:
     def fit(
         self,
         *,
-        pop_size: int = 200,
-        generations: int = 2000,
+        pop_size: int = 180,
+        generations: int = 75,
         crossover_rate: float = 0.7,
         mutation_rate: float = 0.02,
-        elite_size: int = 20,
-        tournament_size: int = 7,
+        elite_size: int = 38,
+        tournament_size: int = 8,
         local_search_rate: float = 0.3,
         local_search_attempts: int = 15,
         random_seed: Optional[int] = None,
@@ -627,10 +627,7 @@ class ScheduleOptimizer:
             history.append(gen_best_penalty)
 
             print(f"{gen} - {gen_best_penalty} - {gen_worst_penalty}")
-
-            # if verbose:
-            #     print(f"{gen} - {gen_best_penalty}")
-
+            
             if best_penalty is None or gen_best_penalty < best_penalty:
                 best_penalty = gen_best_penalty
                 best_chromosome = population[gen_best_idx].copy()
@@ -660,11 +657,12 @@ class ScheduleOptimizer:
                 self._mutate(rng, child1, mutation_rate)
                 self._mutate(rng, child2, mutation_rate)
 
-                if local_search_rate > 0.0 and local_search_attempts > 0:
-                    if rng.random() < local_search_rate:
-                        child1 = self._local_search(rng, child1, max_attempts=local_search_attempts)
-                    if rng.random() < local_search_rate:
-                        child2 = self._local_search(rng, child2, max_attempts=local_search_attempts)
+                # Локальный поиск временно отключен:
+                # if local_search_rate > 0.0 and local_search_attempts > 0:
+                #     if rng.random() < local_search_rate:
+                #         child1 = self._local_search(rng, child1, max_attempts=local_search_attempts)
+                #     if rng.random() < local_search_rate:
+                #         child2 = self._local_search(rng, child2, max_attempts=local_search_attempts)
 
                 new_population[cur] = child1
                 cur += 1

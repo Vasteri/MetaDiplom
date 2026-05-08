@@ -86,6 +86,61 @@ QString shortText(const QString& src, int maxLen = 10)
     }
     return src.left(maxLen - 1) + QStringLiteral("…");
 }
+
+QString compactSubjectText(const QString& src, int maxLen = 10)
+{
+    QString normalized = src.trimmed();
+    if (normalized.isEmpty()) {
+        return normalized;
+    }
+
+    // Сжимаем подписи в скобках: "(лекция)" -> "(л)", "(лабораторная работа)" -> "(л)"
+    int openPos = normalized.indexOf('(');
+    while (openPos != -1) {
+        const int closePos = normalized.indexOf(')', openPos + 1);
+        if (closePos == -1) {
+            break;
+        }
+
+        const QString inside = normalized.mid(openPos + 1, closePos - openPos - 1).trimmed();
+        if (!inside.isEmpty()) {
+            const QString firstLetter = inside.left(1).toLower();
+            normalized.replace(openPos, closePos - openPos + 1, "(" + firstLetter + ")");
+            openPos = normalized.indexOf('(', openPos + 3);
+        } else {
+            openPos = normalized.indexOf('(', closePos + 1);
+        }
+    }
+
+    const QString trimmed = normalized;
+    if (trimmed.isEmpty()) {
+        return trimmed;
+    }
+
+    if (trimmed.size() <= maxLen) {
+        return trimmed;
+    }
+
+    // Для длинных многословных названий: аббревиатура из первых букв слов.
+    // Например: "Методы оптимизации и анализа систем" -> "МОИАС".
+    const QStringList words = trimmed.simplified().split(' ', Qt::SkipEmptyParts);
+    if (words.size() >= 2) {
+        QString abbr;
+        for (const QString& w : words) {
+            if (!w.isEmpty()) {
+                abbr += w.at(0).toUpper();
+            }
+        }
+        if (!abbr.isEmpty()) {
+            if (abbr.size() > maxLen) {
+                return abbr.left(maxLen);
+            }
+            return abbr;
+        }
+    }
+
+    return shortText(trimmed, maxLen);
+}
 } // namespace
 
 #endif // GRAPHIC_H

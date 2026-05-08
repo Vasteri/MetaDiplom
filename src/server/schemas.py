@@ -18,12 +18,12 @@ class InputData(BaseModel):
     subject_count: Dict[str, Dict[str, int]]
 
 class GAParams(BaseModel):
-    pop_size: int = 500
-    generations: int = 500
+    pop_size: int = 180
+    generations: int = 75
     crossover_rate: float = 0.7
     mutation_rate: float = 0.01
-    elite_size: int = 50
-    tournament_size: int = 12
+    elite_size: int = 38
+    tournament_size: int = 8
     local_search_rate: float = 0.3
     local_search_attempts: int = 15
     seed: Optional[int] = None

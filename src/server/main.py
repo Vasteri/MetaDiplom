@@ -17,9 +17,13 @@ def hello():
 def solve_pulp(input: InputData):
     r = MyPulp(json_data=input)
     r.solve()
-    return {"result": r.get_json_list(),
-            "method": "milp",
-            "status": r.status}
+    return {
+        "schedule": r.get_json_list(),
+        "method": "milp",
+        "status": r.status,
+        "penalty": r.penalty,
+        "time": r.time
+    }
 
 @app.post("/solve_genetic", response_class=ORJSONResponse)
 def solve(input: SolveRequest):
@@ -38,7 +42,10 @@ def solve(input: SolveRequest):
         verbose=params.verbose,
     )
     return {
-        "result": opt.to_table(),
+        "schedule": opt.to_table(),
         "method": "ga",
-        "meta": {"penalty": opt.best_penalty_, "history": opt.history_},
+        "status": opt.status,
+        "penalty": opt.best_penalty_,
+        "time": opt.time,
+        "meta": {"history": opt.history_}
     }

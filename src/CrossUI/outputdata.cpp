@@ -27,7 +27,6 @@ OutputData::OutputData(QWidget *parent, GlobalDataTransition* data)
     // QPushButton *btn_save_csv;
     // QPushButton *btn_save_excel;
     // QPushButton *btn_load;
-    // QLabel *lab_info;
 
     connect(ui->combo_objects, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &OutputData::onObjectSelected);
@@ -51,8 +50,6 @@ void OutputData::onReceived()
 {
     QJsonObject obj = this->data->GetData();
     addObject(obj);
-
-    ui->lab_info->setText(this->data->message + " " + obj["status"].toString());
 }
 
 // Добавление нового объекта в хранилище

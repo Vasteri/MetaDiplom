@@ -21,9 +21,6 @@ private:
     QString filename;
     GlobalDataTransition* data;
     Ui::InputData *ui;
-    QStandardItemModel *model;
-    void SetDataToModel(const QJsonObject& jsonObject);
-    QJsonObject NormalizedLists(QJsonObject input);
     void NewFile();
     void OpenFile();
     void SaveFile();

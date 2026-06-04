@@ -20,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->widget(2)->layout()->addWidget(output_data);
     ui->tabWidget->widget(3)->layout()->addWidget(graphic);
     ui->tabWidget->widget(4)->layout()->addWidget(tablish);
+
+    connect(ui->menu_2, &QMenu::triggered, this, [this](){
+        about->show();
+    });
 }
 
 MainWindow::~MainWindow()

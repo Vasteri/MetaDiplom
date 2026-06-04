@@ -28,6 +28,9 @@ InputData::~InputData()
 }
 
 void InputData::NewFile() {
+    ui->but_cancel->setEnabled(true);
+    ui->but_save->setEnabled(true);
+    ui->text_json->setEnabled(true);
     QString fileName = QFileDialog::getSaveFileName(this, "Создайте JSON файл", "", "*.json");
     if (fileName.isEmpty()) return;
     if (!fileName.endsWith(".json", Qt::CaseInsensitive)) fileName = fileName + ".json";
@@ -53,6 +56,9 @@ void InputData::NewFile() {
 }
 
 void InputData::OpenFile(){
+    ui->but_cancel->setEnabled(true);
+    ui->but_save->setEnabled(true);
+    ui->text_json->setEnabled(true);
     QString fileName = QFileDialog::getOpenFileName(this, "Выберите JSON файл", "", "*.json");
     if (fileName.isEmpty()) return;
 

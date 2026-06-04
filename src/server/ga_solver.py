@@ -1,8 +1,7 @@
 from __future__ import annotations
-
 from typing import Dict, List, Optional, Set, Tuple, Union
-
 import numpy as np
+import time
 
 from schemas import InputData
 
@@ -596,6 +595,7 @@ class ScheduleOptimizer:
         feasible_init_max_restarts: int = 10_000,
         crossover_repair_attempts: int = 24,
     ) -> "ScheduleOptimizer":
+        start_time = time.time()
         if pop_size < 2:
             raise ValueError("pop_size must be >= 2")
         if not (0.0 <= crossover_rate <= 1.0):
@@ -675,6 +675,8 @@ class ScheduleOptimizer:
         self.best_chromosome_ = best_chromosome
         self.best_penalty_ = best_penalty
         self.history_ = history
+        self.time = time.time() - start_time
+        self.status = "Reached"
         return self
 
     def to_table(self) -> List[List[str]]:

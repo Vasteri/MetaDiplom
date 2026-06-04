@@ -70,7 +70,7 @@ void Graphic::init_response_api(QPushButton *but_api) {
     connect(but_api, &QPushButton::clicked, this, [this](){
         QJsonObject obj = this->data->GetData();
         clearScenes();
-        if (obj.contains("result") && obj["result"].isArray()) {
+        if (obj.contains("schedule") && obj["schedule"].isArray()) {
             QVector<Lesson> lessons;
             if (!parseSchedule(obj, lessons)) {
                 clearScenes();
@@ -112,7 +112,7 @@ void Graphic::updateStatus(const QString& text, bool isError)
 bool Graphic::parseSchedule(const QJsonObject& obj, QVector<Lesson>& lessons)
 {
     lessons.clear();
-    const QJsonValue resVal = obj.value(QStringLiteral("result"));
+    const QJsonValue resVal = obj.value(QStringLiteral("schedule"));
     if (!resVal.isArray()) {
         return false;
     }

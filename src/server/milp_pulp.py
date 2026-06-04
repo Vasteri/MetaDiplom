@@ -66,7 +66,7 @@ class MyPulp:
         self.problem += (
             WINDOW_PENALTY * lpSum(self.idle.values())
           + WINDOW_PENALTY * lpSum(self.idle_t.values())
-          + lpSum(self.workload_teachers.values())
+          #+ lpSum(self.workload_teachers.values())
         )
 
 
@@ -314,7 +314,10 @@ class MyPulp:
     def solve(self):
         print("Solving...")
         self.problem.solve(PULP_CBC_CMD(msg=True))
+
         self.status = LpStatus[self.problem.status]
+        self.time = self.problem.solutionTime
+        self.penalty = self.problem.objective.value()
         print("Status:", self.status)
 
         self.assigned = []

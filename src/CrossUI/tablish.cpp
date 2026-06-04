@@ -87,8 +87,8 @@ void Tablish::init_response_api(QLabel *lab_api, QPushButton *but_api) {
         //lab_api->setText(err);
         QJsonObject obj = this->data->GetData();
 
-        if (obj.contains("result") && obj["result"].isArray()) {
-            QJsonArray jsonArray = obj["result"].toArray();
+        if (obj.contains("schedule") && obj["schedule"].isArray()) {
+            QJsonArray jsonArray = obj["schedule"].toArray();
             table_data_update(jsonArray);
         }
         else if (obj.isEmpty()){

@@ -27,7 +27,6 @@ OutputData::OutputData(QWidget *parent, GlobalDataTransition* data)
     // QPushButton *btn_save_csv;
     // QPushButton *btn_save_excel;
     // QPushButton *btn_load;
-    // QLabel *lab_info;
 
     connect(ui->combo_objects, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &OutputData::onObjectSelected);
@@ -51,8 +50,6 @@ void OutputData::onReceived()
 {
     QJsonObject obj = this->data->GetData();
     addObject(obj);
-
-    ui->lab_info->setText(this->data->message + " " + obj["status"].toString());
 }
 
 // Добавление нового объекта в хранилище
@@ -60,8 +57,10 @@ void OutputData::addObject(const QJsonObject &obj)
 {
     // описание
     QString desc = (tr("#%1: ").arg(objects.size() + 1)
-                    + obj["method"].toString() + " "
-                    + obj["status"].toString());
+                    + obj["method"].toString() + ", "
+                    + obj["status"].toString() + ", penalty: "
+                    + QString::number(obj["penalty"].toDouble()) + ", "
+                    + QString::number(obj["time"].toDouble(), 'f', 1) + " seconds");
 
     objects.append(obj);
     descriptions.append(desc);
@@ -166,7 +165,7 @@ void OutputData::saveAsCsv()
     const QJsonObject &obj = objects[currentIndex];
 
     // Таблица result
-    QJsonArray resultArray = obj["result"].toArray();
+    QJsonArray resultArray = obj["schedule"].toArray();
     if (!resultArray.isEmpty()) {
         for (const QJsonValue &rowVal : resultArray) {
             QJsonArray row = rowVal.toArray();
@@ -279,6 +278,6 @@ QJsonObject OutputData::loadCsvFromFile(const QString &path) const
     }
 
     QJsonObject obj;
-    obj["result"] = resultArray;
+    obj["schedule"] = resultArray;
     return obj;
 }

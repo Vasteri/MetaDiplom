@@ -1,11 +1,11 @@
 from pulp import LpProblem, LpMinimize, LpVariable, lpSum, LpStatus, PULP_CBC_CMD
 from collections import defaultdict
-from schemas import InputData
+from schemas import MilpSolveRequest
 #from pandas import DataFrame
 
 
 class MyPulp:
-    def __init__(self, json_data:InputData = None):
+    def __init__(self, json_data:MilpSolveRequest = None):
         if not(json_data is None):
             self.set_json_values(json_data)
         else:
@@ -19,7 +19,7 @@ class MyPulp:
         self._init_objective_function()
         self._init_constraints()
 
-    def set_json_values(self, json_data:InputData):
+    def set_json_values(self, json_data:MilpSolveRequest):
         self.subject_count = json_data.subject_count
         self.default_count = json_data.default_count
 
@@ -38,6 +38,9 @@ class MyPulp:
                 self.teacher_subjects[teacher].append(subject)
 
         self.teacher_subjects = dict(self.teacher_subjects)
+
+        self.penalty_window_teachers = json_data.window_teachers
+        self.penalty_window_groups = json_data.window_groups
 
     def get_json_dict(self):
         schedule = [
@@ -62,10 +65,9 @@ class MyPulp:
         return schedule
 
     def _init_objective_function(self):
-        WINDOW_PENALTY = 1000
         self.problem += (
-            WINDOW_PENALTY * lpSum(self.idle.values())
-          + WINDOW_PENALTY * lpSum(self.idle_t.values())
+            self.penalty_window_groups   * lpSum(self.idle.values())
+          + self.penalty_window_teachers * lpSum(self.idle_t.values())
           #+ lpSum(self.workload_teachers.values())
         )
 
@@ -92,6 +94,9 @@ class MyPulp:
             "economic": ["T4"],
             "IT": ["T5", "T6", "T7"]
         }
+
+        self.penalty_window_teachers = 100
+        self.penalty_window_groups   = 100
 
     def _init_constraints(self):
         # 1) Для всех (g, s) задать нужное количество занятий в неделю

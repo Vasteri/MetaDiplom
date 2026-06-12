@@ -17,6 +17,10 @@ class InputData(BaseModel):
     subject_teachers: Dict[str, List[str]]
     subject_count: Dict[str, Dict[str, int]]
 
+class MilpParams(BaseModel):
+    window_teachers: int
+    window_groups: int
+
 class GAParams(BaseModel):
     pop_size: int = 180
     generations: int = 75
@@ -29,6 +33,8 @@ class GAParams(BaseModel):
     seed: Optional[int] = None
     verbose: bool = True
 
-class SolveRequest(InputData):
+class GASolveRequest(InputData):
     method: Literal["milp", "ga"] = "milp"
-    ga_params: Optional[GAParams] = None
+    ga_params: Optional[MilpParams] = None
+
+class MilpSolveRequest(InputData, MilpParams): pass

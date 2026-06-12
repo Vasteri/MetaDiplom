@@ -1,4 +1,4 @@
-from schemas import InputData, SolveRequest, GAParams
+from schemas import MilpSolveRequest, GASolveRequest, GAParams
 from milp_pulp import MyPulp
 from ga_solver import ScheduleOptimizer
 
@@ -14,7 +14,7 @@ def hello():
     return {"result": "Hello"}
 
 @app.post("/solve_pulp", response_class=ORJSONResponse)
-def solve_pulp(input: InputData):
+def solve_pulp(input: MilpSolveRequest):
     r = MyPulp(json_data=input)
     r.solve()
     return {
@@ -26,7 +26,7 @@ def solve_pulp(input: InputData):
     }
 
 @app.post("/solve_genetic", response_class=ORJSONResponse)
-def solve(input: SolveRequest):
+def solve(input: GASolveRequest):
     params = input.ga_params or GAParams()
     raw = input.model_dump(exclude={"method", "ga_params"})
     opt = ScheduleOptimizer(raw).fit(

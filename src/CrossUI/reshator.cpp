@@ -8,6 +8,7 @@ Reshator::Reshator(QWidget *parent, GlobalDataTransition* data)
     ui->setupUi(this);
 
     this->data = data;
+    this->ui->group_ga_params->setVisible(false);
 
     connect(ui->but_send, &QPushButton::clicked, this, [this](){
         ui->lab_info->setText("Запрос...");
@@ -15,6 +16,8 @@ Reshator::Reshator(QWidget *parent, GlobalDataTransition* data)
         QJsonObject extra;
         if (ui->comboBox->currentIndex() == 0) {
             extra.insert("method", "milp");
+            extra.insert("window_groups", ui->spin_lambda_1->value());
+            extra.insert("window_teachers", ui->spin_lambda_2->value());
         } else {
             extra.insert("method", "ga");
             QJsonObject ga;
@@ -40,7 +43,8 @@ Reshator::Reshator(QWidget *parent, GlobalDataTransition* data)
     });
 
     connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [this](int index){
-        this->ui->group_ga_params->setEnabled(index); // 0 - pulp. 1 - GA => true
+        this->ui->group_ga_params->setVisible(index); // 0 - pulp. 1 - GA => true
+        this->ui->group_milp_params->setVisible(not index);
     });
 }
 

@@ -330,7 +330,7 @@ void Graphic::renderDiagram(QGraphicsScene* scene,
     for (int row = 0; row < rows.size(); ++row) {
         const double y = topPadding + row * (slotHeight + rowGap);
         auto textItem = scene->addText(shortText(rows.at(row), 18));
-        textItem->setDefaultTextColor(Qt::white);
+        //textItem->setDefaultTextColor(Qt::white);
         QRectF br = textItem->boundingRect();
         textItem->setPos(leftPadding, y + slotHeight / 2.0 - br.height() / 2.0);
     }

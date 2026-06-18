@@ -22,7 +22,8 @@ def solve_pulp(input: MilpSolveRequest):
         "method": "milp",
         "status": r.status,
         "penalty": r.penalty,
-        "time": r.time
+        "time": r.time,
+        "params": [r.penalty_window_groups, r.penalty_window_teachers]
     }
 
 @app.post("/solve_genetic", response_class=ORJSONResponse)
